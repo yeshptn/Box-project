@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Boxes</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+    }
+
+    .container {
+      width: 90%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .box {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      cursor: pointer;
+      transition: max-height 0.5s ease, padding 0.3s ease;
+      max-height: 60px;
+      padding: 10px 20px;
+    }
+
+    .box.active {
+      max-height: 300px;
+      padding: 20px;
+    }
+
+    .header {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .content {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .box.active .content {
+      display: block;
+    }
+
+    .colors {
+      display: flex;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .color {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #ccc;
+    }
+
+    .color.red { background: red; }
+    .color.green { background: green; }
+    .color.blue { background: blue; }
+
+    .sizes button {
+      margin-right: 10px;
+      padding: 5px 10px;
+      border: none;
+      background: #ddd;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .sizes button:hover {
+      background: #bbb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="box" data-id="top">
+      <div class="header">Top Box</div>
+      <div class="content">
+        <p>Choose a color:</p>
+        <div class="colors">
+          <span class="color red" data-color="red"></span>
+          <span class="color green" data-color="green"></span>
+          <span class="color blue" data-color="blue"></span>
+        </div>
+        <p>Choose a size:</p>
+        <div class="sizes">
+          <button data-size="small">Small</button>
+          <button data-size="medium">Medium</button>
+          <button data-size="large">Large</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="box" data-id="middle">
+      <div class="header">Middle Box</div>
+      <div class="content">
+        <p>Choose a color:</p>
+        <div class="colors">
+          <span class="color red" data-color="red"></span>
+          <span class="color green" data-color="green"></span>
+          <span class="color blue" data-color="blue"></span>
+        </div>
+        <p>Choose a size:</p>
+        <div class="sizes">
+          <button data-size="small">Small</button>
+          <button data-size="medium">Medium</button>
+          <button data-size="large">Large</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="box" data-id="bottom">
+      <div class="header">Bottom Box</div>
+      <div class="content">
+        <p>Choose a color:</p>
+        <div class="colors">
+          <span class="color red" data-color="red"></span>
+          <span class="color green" data-color="green"></span>
+          <span class="color blue" data-color="blue"></span>
+        </div>
+        <p>Choose a size:</p>
+        <div class="sizes">
+          <button data-size="small">Small</button>
+          <button data-size="medium">Medium</button>
+          <button data-size="large">Large</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const boxes = document.querySelectorAll('.box');
+
+    boxes.forEach(box => {
+      box.addEventListener('click', function(e) {
+        if (!e.target.closest('.content')) {
+          this.classList.toggle('active');
+        }
+      });
+
+      const colors = box.querySelectorAll('.color');
+      const sizeButtons = box.querySelectorAll('.sizes button');
+
+      colors.forEach(color => {
+        color.addEventListener('click', (e) => {
+          e.stopPropagation();
+          box.style.backgroundColor = e.target.dataset.color;
+        });
+      });
+
+      sizeButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const size = e.target.dataset.size;
+          if (size === 'small') {
+            box.style.fontSize = '12px';
+          } else if (size === 'medium') {
+            box.style.fontSize = '16px';
+          } else {
+            box.style.fontSize = '20px';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
